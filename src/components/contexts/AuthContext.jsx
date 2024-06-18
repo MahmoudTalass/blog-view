@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from "react";
+import { Outlet } from "react-router-dom";
 import PropTypes from "prop-types";
 
 const AuthContext = createContext({
@@ -6,10 +7,11 @@ const AuthContext = createContext({
    token: null,
 });
 
-function AuthProvider({ children }) {
+function AuthProvider() {
    const [token, setToken] = useState(null);
    const [user, setUser] = useState(null);
 
+   console.log("auth user:", user);
    useEffect(() => {
       const storedToken = localStorage.getItem("token");
 
@@ -18,7 +20,7 @@ function AuthProvider({ children }) {
 
    return (
       <AuthContext.Provider value={{ token, setToken, user, setUser }}>
-         {children}
+         <Outlet />
       </AuthContext.Provider>
    );
 }
