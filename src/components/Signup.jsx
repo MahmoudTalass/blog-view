@@ -8,7 +8,7 @@ import SubmitButton from "./SubmitButton";
 import FormErrors from "./FormErrors";
 
 function Signup() {
-   const { user, setUser, token, setToken } = useAuth();
+   const { token, setToken } = useAuth();
    const [email, setEmail] = useState("");
    const [name, setName] = useState("");
    const [password, setPassword] = useState("");
@@ -32,12 +32,10 @@ function Signup() {
          if (!response.ok) {
             setError(json.error);
             setToken(null);
-            setUser(null);
             return;
          }
 
          setToken(json.token);
-         setUser(json.user);
          localStorage.setItem("token", json.token);
          setPassword("");
          setError(null);
@@ -46,7 +44,6 @@ function Signup() {
       }
    }
 
-   console.log("user:", user, "token:", token);
    if (token) {
       return <Navigate to="/" />;
    }
