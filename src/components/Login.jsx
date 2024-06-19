@@ -6,9 +6,11 @@ import InputField from "./InputField";
 import AuthenticationForm from "./AuthenticationForm";
 import SubmitButton from "./SubmitButton";
 import FormErrors from "./FormErrors";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowAltCircleLeft } from "@fortawesome/free-regular-svg-icons";
 
 function Login() {
-   const { user, setUser, token, setToken } = useAuth();
+   const { token, setToken } = useAuth();
    const [email, setEmail] = useState("");
    const [password, setPassword] = useState("");
    const [error, setError] = useState(null);
@@ -33,12 +35,10 @@ function Login() {
          if (!response.ok) {
             setError(json.error);
             setToken(null);
-            setUser(null);
             return;
          }
 
          setToken(json.token);
-         setUser(json.user);
          localStorage.setItem("token", json.token);
          setPassword("");
          setError(null);
@@ -47,14 +47,19 @@ function Login() {
       }
    }
 
-   console.log("user:", user, "token:", token);
-   if (token && user) {
+   if (token) {
       return <Navigate to="/" />;
    }
 
    return (
       <AuthenticationForm handleSubmit={handleSubmitLogin}>
-         <h1 className="text-3xl">Login Form</h1>
+         <div className="flex items-center relative">
+            {" "}
+            <Link to="/" className="absolute right-[17rem]">
+               <FontAwesomeIcon icon={faArrowAltCircleLeft} size="xl" />
+            </Link>
+            <h1 className="text-3xl">Login Form</h1>
+         </div>
          <InputField
             type="email"
             label="Email"
