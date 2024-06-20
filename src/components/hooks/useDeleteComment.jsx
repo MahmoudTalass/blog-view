@@ -3,7 +3,7 @@ import { useState } from "react";
 function useDeleteComment(commentsDispatch) {
    const [error, setError] = useState(null);
 
-   async function handleDeleteComment(commentId) {
+   async function handleDeleteComment(commentId, authorId) {
       try {
          const storedToken = localStorage.getItem("token");
 
@@ -13,7 +13,7 @@ function useDeleteComment(commentsDispatch) {
                "content-type": "application/json",
                authorization: "Bearer " + storedToken,
             },
-            body: JSON.stringify({ authorId: comment.author._id }),
+            body: JSON.stringify({ authorId }),
          });
 
          if (!response.ok) {
@@ -22,7 +22,7 @@ function useDeleteComment(commentsDispatch) {
             return;
          }
 
-         commentsDispatch({ type: "delete", commentId: comment._id });
+         commentsDispatch({ type: "delete", commentId });
          setError(null);
       } catch (err) {
          setError(err);
