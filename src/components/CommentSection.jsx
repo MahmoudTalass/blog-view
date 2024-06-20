@@ -10,7 +10,7 @@ function CommentSection({ comments, dispatch }) {
    const [commentText, setCommentText] = useState("");
    const { postId } = useParams();
    const [error, setError] = useState(null);
-   const { setToken, setUserId } = useAuth();
+   const { setToken, setUserId, userId } = useAuth();
 
    async function handlePostComment() {
       try {
@@ -47,7 +47,6 @@ function CommentSection({ comments, dispatch }) {
             return;
          }
 
-         console.log(json);
          setError(null);
          dispatch({ type: "add", comment: json });
          setCommentText("");
@@ -93,7 +92,13 @@ function CommentSection({ comments, dispatch }) {
             ))}
          <div className="flex flex-col gap-4">
             {comments.map((comment) => {
-               return <Comment key={comment._id} comment={comment} />;
+               return (
+                  <Comment
+                     key={comment._id}
+                     comment={comment}
+                     isCurrentUserComment={userId === comment.author._id}
+                  />
+               );
             })}
             {comments.length === 0 && <p>No comments yet</p>}
          </div>
