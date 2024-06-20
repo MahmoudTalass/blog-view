@@ -5,55 +5,13 @@ import Comment from "./Comment";
 import { useParams } from "react-router-dom";
 import useAuth from "./hooks/useAuth";
 import PropTypes from "prop-types";
+import usePostComment from "./hooks/usePostComment";
 
-function CommentSection({ comments, dispatch }) {
+function CommentSection({ comments, commentsDispatch }) {
    const [commentText, setCommentText] = useState("");
    const { postId } = useParams();
-   const [error, setError] = useState(null);
-   const { setToken, setUserId, userId } = useAuth();
-
-   async function handlePostComment() {
-      try {
-         const storedToken = localStorage.getItem("token");
-
-         const body = {
-            text: commentText,
-            postId,
-         };
-
-         const response = await fetch("http://localhost:3000/api/comments", {
-            method: "post",
-            headers: {
-               "content-type": "application/json",
-               authorization: "Bearer " + storedToken,
-            },
-            body: JSON.stringify(body),
-         });
-
-         let json;
-
-         if (response.status === 401) {
-            json = { error: { status: response.status, message: "Authentication required" } };
-            dispatch({ type: "reset" });
-            setToken(null);
-            setUserId(null);
-            localStorage.removeItem("token");
-         } else {
-            json = await response.json();
-         }
-
-         if (!response.ok) {
-            setError(json.error);
-            return;
-         }
-
-         setError(null);
-         dispatch({ type: "add", comment: json });
-         setCommentText("");
-      } catch (err) {
-         setError(err);
-      }
-   }
+   const { userId } = useAuth();
+   const [handlePostComment, error] = usePostComment(commentsDispatch);
 
    return (
       <section>
@@ -73,7 +31,7 @@ function CommentSection({ comments, dispatch }) {
                disabled={commentText.length === 0}
                className={`opacity-${commentText.length === 0 ? "10" : "100"}`}
                title="post"
-               onClick={handlePostComment}
+               onClick={() => handlePostComment(postId, commentText, setCommentText)}
             >
                <FontAwesomeIcon icon={faArrowRight} size="xl" />
             </button>
@@ -97,6 +55,7 @@ function CommentSection({ comments, dispatch }) {
                      key={comment._id}
                      comment={comment}
                      isCurrentUserComment={userId === comment.author._id}
+                     commentsDispatch={commentsDispatch}
                   />
                );
             })}
@@ -108,7 +67,7 @@ function CommentSection({ comments, dispatch }) {
 
 CommentSection.propTypes = {
    comments: PropTypes.array,
-   dispatch: PropTypes.func,
+   commentsDispatch: PropTypes.func,
 };
 
 export default CommentSection;
