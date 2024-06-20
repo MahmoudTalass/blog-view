@@ -4,7 +4,7 @@ function commentsReducer(comments, action) {
          return [action.comment, ...comments];
       }
       case "delete": {
-         return comments.filter((comment) => comment.id != action.commentId);
+         return comments.filter((comment) => comment._id !== action.commentId);
       }
       case "update": {
          return comments.map((comment) => {
