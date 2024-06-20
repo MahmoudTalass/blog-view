@@ -15,8 +15,6 @@ function Login() {
    const [password, setPassword] = useState("");
    const [error, setError] = useState(null);
 
-   console.log("login error", error);
-
    async function handleSubmitLogin(e) {
       e.preventDefault();
       setPassword("");
