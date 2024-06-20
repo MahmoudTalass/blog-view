@@ -5,7 +5,7 @@ import CommentSection from "./CommentSection";
 import commentsReducer from "./reducers/commentsReducer";
 
 function Post() {
-   const { token, setToken } = useAuth();
+   const { token, setToken, setUserId } = useAuth();
    const { postId } = useParams();
    const [error, setError] = useState(null);
    const [isLoading, setIsLoading] = useState(true);
@@ -33,6 +33,7 @@ function Post() {
                setPost(null);
                dispatch({ type: "reset" });
                setToken(null);
+               setUserId(null);
                localStorage.removeItem("token");
             } else {
                json = await response.json();
@@ -61,7 +62,7 @@ function Post() {
       return () => {
          active = false;
       };
-   }, [postId, setToken]);
+   }, [postId, setToken, setUserId]);
 
    if (!token) {
       return <Navigate to="/login" replace={true} />;
