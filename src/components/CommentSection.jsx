@@ -10,7 +10,7 @@ function CommentSection({ comments, dispatch }) {
    const [commentText, setCommentText] = useState("");
    const { postId } = useParams();
    const [error, setError] = useState(null);
-   const { setToken } = useAuth();
+   const { setToken, setUserId } = useAuth();
 
    async function handlePostComment() {
       try {
@@ -36,6 +36,7 @@ function CommentSection({ comments, dispatch }) {
             json = { error: { status: response.status, message: "Authentication required" } };
             dispatch({ type: "reset" });
             setToken(null);
+            setUserId(null);
             localStorage.removeItem("token");
          } else {
             json = await response.json();
