@@ -2,10 +2,11 @@ import { Link } from "react-router-dom";
 import useAuth from "./hooks/useAuth";
 
 function Navbar() {
-   const { token, setToken } = useAuth();
+   const { token, setToken, setUserId } = useAuth();
 
    function logout() {
       setToken(null);
+      setUserId(null);
       localStorage.removeItem("token");
    }
 
