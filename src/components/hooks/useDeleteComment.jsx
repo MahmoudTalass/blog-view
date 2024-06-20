@@ -3,11 +3,11 @@ import { useState } from "react";
 function useDeleteComment(commentsDispatch) {
    const [error, setError] = useState(null);
 
-   async function handleDeleteComment(comment) {
+   async function handleDeleteComment(commentId) {
       try {
          const storedToken = localStorage.getItem("token");
 
-         const response = await fetch("http://localhost:3000/api/comments/" + comment._id, {
+         const response = await fetch("http://localhost:3000/api/comments/" + commentId, {
             method: "delete",
             headers: {
                "content-type": "application/json",

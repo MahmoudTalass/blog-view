@@ -51,7 +51,7 @@ function Comment({ comment, isCurrentUserComment, commentsDispatch }) {
                      >
                         <button role="menuitem">Edit</button>
                         <hr />
-                        <button role="menuitem" onClick={() => handleDeleteComment(comment)}>
+                        <button role="menuitem" onClick={() => handleDeleteComment(comment._id)}>
                            Delete
                         </button>
                      </div>
