@@ -31,7 +31,6 @@ function Signup() {
          const json = await response.json();
          if (!response.ok) {
             setError(json.error);
-            setToken(null);
             return;
          }
 
