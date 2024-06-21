@@ -4,6 +4,7 @@ import { useEffect, useState, useReducer } from "react";
 import CommentSection from "./CommentSection";
 import commentsReducer from "./reducers/commentsReducer";
 import useLogout from "./hooks/useLogout";
+import moment from "moment";
 
 function Post() {
    const { token } = useAuth();
@@ -82,12 +83,12 @@ function Post() {
 
    return (
       <main className="w-full flex flex-col items-center">
-         <section className="w-9/12 flex flex-col bg-color2 p-8 gap-12 rounded">
+         <section className="w-full sm:w-9/12 flex flex-col bg-[#1C2833] p-8 gap-12 rounded-xl ">
             <div className="flex flex-col gap-8">
-               <h2 className="text-3xl">{post.title}</h2>
+               <h2 className="text-center sm:text-left text-3xl">{post.title}</h2>
                <div className="flex justify-between">
                   <p>{post.author.name}</p>
-                  <p>{post.publishDate}</p>
+                  <p>{moment(post.publishDate).format("ll")}</p>
                </div>
                <p className="text-lg">{post.text}</p>
             </div>

@@ -1,5 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import Comment from "./Comment";
 import { useParams } from "react-router-dom";
@@ -16,24 +14,26 @@ function CommentSection({ comments, commentsDispatch }) {
    return (
       <section>
          <hr />
-         <p className="text-2xl py-4">comments:</p>
+         <p className="text-2xl py-4 font-bold">comments:</p>
          <hr />
          <br />
-         <div className="flex gap-2 items-center mb-4 border-b pb-2">
+         <div className="flex gap-2 items-center mb-4">
             <input
                type="text"
-               placeholder="comment..."
-               className="w-full bg-inherit"
+               placeholder="Add a comment..."
+               className="flex-grow bg-[#2C3E50] p-2 rounded"
                value={commentText}
                onChange={(e) => setCommentText(e.target.value)}
             />
             <button
                disabled={commentText.length === 0}
-               className={`opacity-${commentText.length === 0 ? "10" : "100"}`}
+               className={`opacity-${
+                  commentText.length === 0 ? "10" : "100"
+               } bg-[#3498DB] py-2 px-5 rounded text-[#ECF0F1]`}
                title="post"
                onClick={() => handlePostComment(postId, commentText, setCommentText)}
             >
-               <FontAwesomeIcon icon={faArrowRight} size="xl" />
+               Add comment
             </button>
          </div>
          {error &&

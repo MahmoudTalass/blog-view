@@ -6,6 +6,8 @@ import InputField from "./InputField";
 import AuthenticationForm from "./AuthenticationForm";
 import SubmitButton from "./SubmitButton";
 import FormErrors from "./FormErrors";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowAltCircleLeft } from "@fortawesome/free-regular-svg-icons";
 
 function Signup() {
    const { token, setToken } = useAuth();
@@ -49,7 +51,13 @@ function Signup() {
 
    return (
       <AuthenticationForm handleSubmit={handleSubmitSignup}>
-         <h1 className="text-3xl">Sign up Form</h1>
+         <div className="flex items-center relative">
+            {" "}
+            <Link to="/" className="absolute right-[17rem]">
+               <FontAwesomeIcon icon={faArrowAltCircleLeft} size="xl" />
+            </Link>
+            <h1 className="text-3xl font-bold">Sign up Form</h1>
+         </div>
          <InputField
             type="text"
             label="Name"

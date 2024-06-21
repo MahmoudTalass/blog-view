@@ -58,7 +58,7 @@ function Login() {
             <Link to="/" className="absolute right-[17rem]">
                <FontAwesomeIcon icon={faArrowAltCircleLeft} size="xl" />
             </Link>
-            <h1 className="text-3xl">Login Form</h1>
+            <h1 className="text-3xl font-bold">Login Form</h1>
          </div>
          <InputField
             type="email"

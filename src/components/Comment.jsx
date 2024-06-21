@@ -1,16 +1,37 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-regular-svg-icons";
-import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
-import moment from "moment";
 import { useEffect, useRef, useState } from "react";
+
+// icons
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
+
+// custom hooks
 import useOutsideClick from "./hooks/useOutsideClick";
 import useDeleteComment from "./hooks/useDeleteComment";
+import useUpdateComment from "./hooks/useUpdateComment";
+
+// prop type checking
+import PropTypes from "prop-types";
+
+// time/date formatting
+import moment from "moment";
 
 function Comment({ comment, isCurrentUserComment, commentsDispatch }) {
-   const [displayOptions, setDisplayOptions] = useState(false);
+   // toggle display state
+   const [displayOptions, setDisplayOptions] = useState(false); // handles displaying the options tools for a comment (delete/edit)
+   const [isEditing, setIsEditing] = useState(false); // handles displaying the input field for editing a comment
+
+   // DOM ref
    const commentOptionsRef = useRef(null);
+
+   // custom state for performing update/delete actions on a comment
    const [handleDeleteComment, deleteError, setDeleteError] = useDeleteComment(commentsDispatch);
+   const [handleUpdateComment, updateError, setUpdateError] = useUpdateComment(commentsDispatch);
+
+   // Hook to handle hiding an element when clicking outside the element
    useOutsideClick(commentOptionsRef, setDisplayOptions);
+
+   // state for text that the user will type to update/edit their comment
+   const [commentInput, setCommentInput] = useState(comment.text);
 
    useEffect(() => {
       setDisplayOptions(false);
@@ -19,52 +40,107 @@ function Comment({ comment, isCurrentUserComment, commentsDispatch }) {
       }, 3000);
 
       return () => clearTimeout(timeoutId);
-   }, [deleteError, setDeleteError]);
+   }, [deleteError, setDeleteError, updateError, setUpdateError]);
+
+   function handleDisplayEditing() {
+      setCommentInput(comment.text);
+      setIsEditing(true);
+      setDisplayOptions(false);
+   }
+
+   function handleSaveUpdate() {
+      handleUpdateComment(comment._id, comment.author._id, commentInput);
+      setIsEditing(false);
+   }
 
    return (
       <>
-         <div className="flex gap-4 items-center">
-            <div className="rounded-full bg-slate-400 p-2">
-               <FontAwesomeIcon icon={faUser} size="xl" />
-            </div>
-            <div className="flex-grow">
-               <div className="flex items-center gap-2">
-                  <p>{comment.author.name}</p>
-                  <p className="text-sm text-gray-400">{moment(comment.createdAt).fromNow()}</p>
-               </div>
-               <p>{comment.text}</p>
-            </div>
-            {isCurrentUserComment && (
-               <div className="relative">
-                  <button
-                     onClick={() => setDisplayOptions(!displayOptions)}
-                     aria-haspopup="true"
-                     aria-expanded={displayOptions}
-                  >
-                     <FontAwesomeIcon icon={faEllipsisVertical} />
-                  </button>
-                  {displayOptions && (
-                     <div
-                        className="flex flex-col bg-[#8A897C] rounded   absolute right-0 z-10 p-1 px-3 gap-1"
-                        role="menu"
-                        ref={commentOptionsRef}
+         <div className="flex gap-4 items-center bg-color3 p-2 rounded-lg">
+            {isEditing && (
+               <div className="flex flex-col gap-2 flex-grow">
+                  <input
+                     type="text"
+                     placeholder="comment..."
+                     className="w-full bg-inherit outline-none border-b"
+                     value={commentInput}
+                     onChange={(e) => setCommentInput(e.target.value)}
+                  />
+                  <div className="flex gap-2 justify-end">
+                     <button
+                        className={"border rounded-full px-4 py-2 w-min text-sm"}
+                        title="cancel"
+                        onClick={() => setIsEditing(false)}
                      >
-                        <button role="menuitem">Edit</button>
-                        <hr />
-                        <button
-                           role="menuitem"
-                           onClick={() => handleDeleteComment(comment._id, comment.author._id)}
-                        >
-                           Delete
-                        </button>
-                     </div>
-                  )}
+                        cancel
+                     </button>
+                     <button
+                        disabled={commentInput.length === 0}
+                        className={`opacity-${
+                           commentInput.length === 0 ? "10" : "100"
+                        } border rounded-full px-4 py-2 w-min text-sm`}
+                        title="save"
+                        onClick={() => handleSaveUpdate()}
+                     >
+                        save
+                     </button>
+                  </div>
                </div>
             )}
+            {!isEditing && (
+               <>
+                  <div className="flex-grow flex flex-col gap-1">
+                     <div className="flex flex-col">
+                        <p className="font-bold">{comment.author.name}</p>
+                        <p className="text-sm text-gray-400">
+                           {moment(comment.createdAt).fromNow()}
+                        </p>
+                     </div>
+                     <p>{comment.text}</p>
+                  </div>
+                  {isCurrentUserComment && (
+                     <div className="relative">
+                        <button
+                           onClick={() => setDisplayOptions(!displayOptions)}
+                           aria-haspopup="true"
+                           aria-expanded={displayOptions}
+                        >
+                           <FontAwesomeIcon icon={faEllipsisVertical} />
+                        </button>
+                        {displayOptions && (
+                           <div
+                              className="flex flex-col bg-color2 rounded absolute right-0 z-10 p-1 px-3 gap-1"
+                              role="menu"
+                              ref={commentOptionsRef}
+                           >
+                              <button role="menuitem" onClick={handleDisplayEditing}>
+                                 Edit
+                              </button>
+                              <hr />
+                              <button
+                                 role="menuitem"
+                                 onClick={() =>
+                                    handleDeleteComment(comment._id, comment.author._id)
+                                 }
+                              >
+                                 Delete
+                              </button>
+                           </div>
+                        )}
+                     </div>
+                  )}
+               </>
+            )}
          </div>
+
          {deleteError && <p>{deleteError.message}</p>}
       </>
    );
 }
+
+Comment.propTypes = {
+   comment: PropTypes.object,
+   isCurrentUserComment: PropTypes.bool,
+   commentsDispatch: PropTypes.func,
+};
 
 export default Comment;

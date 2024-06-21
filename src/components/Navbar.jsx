@@ -11,9 +11,9 @@ function Navbar() {
    }
 
    return (
-      <header className="flex justify-between p-6 mb-16">
+      <header className="flex justify-between p-6 mb-16 bg-[#34495E]">
          <Link to="/">
-            <h1 className="text-4xl">Blog View</h1>
+            <h1 className="text-4xl font-bold">Blog View</h1>
          </Link>
          <nav className="flex gap-6 items-center">
             {token ? (
