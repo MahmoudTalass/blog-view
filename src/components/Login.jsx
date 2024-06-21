@@ -8,9 +8,10 @@ import SubmitButton from "./SubmitButton";
 import FormErrors from "./FormErrors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowAltCircleLeft } from "@fortawesome/free-regular-svg-icons";
+import { jwtDecode } from "jwt-decode";
 
 function Login() {
-   const { token, setToken } = useAuth();
+   const { token, setToken, setUserId } = useAuth();
    const [email, setEmail] = useState("");
    const [password, setPassword] = useState("");
    const [error, setError] = useState(null);
@@ -35,7 +36,9 @@ function Login() {
             return;
          }
 
+         const userId = jwtDecode(json.token).id;
          setToken(json.token);
+         setUserId(userId);
          localStorage.setItem("token", json.token);
          setPassword("");
          setError(null);
