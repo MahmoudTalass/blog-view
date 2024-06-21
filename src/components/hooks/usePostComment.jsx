@@ -1,9 +1,9 @@
 import { useState } from "react";
 import useAuth from "./useAuth";
+import useLogout from "./useLogout";
 
 function usePostComment(commentsDispatch) {
-   const { setToken, setUserId } = useAuth();
-
+   const logout = useLogout();
    const [error, setError] = useState(null);
 
    async function handlePostComment(postId, commentText, setCommentText) {
@@ -29,9 +29,7 @@ function usePostComment(commentsDispatch) {
          if (response.status === 401) {
             json = { error: { status: response.status, message: "Authentication required" } };
             commentsDispatch({ type: "reset" });
-            setToken(null);
-            setUserId(null);
-            localStorage.removeItem("token");
+            logout();
          } else {
             json = await response.json();
          }
