@@ -1,7 +1,9 @@
 import { useState } from "react";
+import useLogout from "./useLogout";
 
 function useDeleteComment(commentsDispatch) {
    const [error, setError] = useState(null);
+   const logout = useLogout();
 
    async function handleDeleteComment(commentId, authorId) {
       try {
@@ -17,7 +19,13 @@ function useDeleteComment(commentsDispatch) {
          });
 
          if (!response.ok) {
-            const json = await response.json();
+            let json;
+            if (response.status === 401) {
+               json = { error: { status: response.status, message: "Authentication required" } };
+               logout();
+            } else {
+               json = await response.json();
+            }
             setError(json.error);
             return;
          }
