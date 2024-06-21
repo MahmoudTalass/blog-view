@@ -14,10 +14,13 @@ function AuthProvider() {
 
    useEffect(() => {
       const storedToken = localStorage.getItem("token");
-      const id = jwtDecode(storedToken).id;
 
-      setToken(storedToken);
-      setUserId(id);
+      if (storedToken) {
+         const id = jwtDecode(storedToken).id;
+
+         setToken(storedToken);
+         setUserId(id);
+      }
    }, []);
 
    return (
