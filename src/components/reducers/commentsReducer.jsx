@@ -8,7 +8,7 @@ function commentsReducer(comments, action) {
       }
       case "update": {
          return comments.map((comment) => {
-            if (comment.id === action.comment._id) {
+            if (comment._id === action.comment._id) {
                return action.comment;
             } else {
                return comment;
