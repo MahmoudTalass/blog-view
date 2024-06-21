@@ -3,14 +3,16 @@ import useAuth from "./hooks/useAuth";
 import { useEffect, useState, useReducer } from "react";
 import CommentSection from "./CommentSection";
 import commentsReducer from "./reducers/commentsReducer";
+import useLogout from "./hooks/useLogout";
 
 function Post() {
-   const { token, setToken, setUserId } = useAuth();
+   const { token } = useAuth();
    const { postId } = useParams();
    const [error, setError] = useState(null);
    const [isLoading, setIsLoading] = useState(true);
    const [post, setPost] = useState(null);
-   const [comments, dispatch] = useReducer(commentsReducer, []);
+   const [comments, commentsDispatch] = useReducer(commentsReducer, []);
+   const logout = useLogout();
 
    useEffect(() => {
       let active = true;
@@ -28,13 +30,11 @@ function Post() {
 
             let json;
 
-            if (response.statusText === "Unauthorized") {
+            if (response.status === 401) {
                json = { error: { status: response.status, message: "Authentication required" } };
                setPost(null);
-               dispatch({ type: "reset" });
-               setToken(null);
-               setUserId(null);
-               localStorage.removeItem("token");
+               commentsDispatch({ type: "reset" });
+               logout();
             } else {
                json = await response.json();
             }
@@ -47,10 +47,10 @@ function Post() {
             if (active) {
                setError(null);
                setPost(json.post);
-               dispatch({ type: "set", comments: json.comments });
+               commentsDispatch({ type: "set", comments: json.comments });
             }
          } catch (err) {
-            setError(err);
+            setError({ message: "Could not get the post, please try again later." });
          } finally {
             if (active) {
                setIsLoading(false);
@@ -62,7 +62,7 @@ function Post() {
       return () => {
          active = false;
       };
-   }, [postId, setToken, setUserId]);
+   }, [postId, logout]);
 
    if (!token) {
       return <Navigate to="/login" replace={true} />;
@@ -91,7 +91,7 @@ function Post() {
                </div>
                <p className="text-lg">{post.text}</p>
             </div>
-            <CommentSection comments={comments} dispatch={dispatch} />
+            <CommentSection comments={comments} commentsDispatch={commentsDispatch} />
          </section>
       </main>
    );
