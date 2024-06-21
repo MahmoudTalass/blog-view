@@ -23,7 +23,7 @@ function Home() {
                setData(json);
             }
          } catch (err) {
-            setError(err);
+            setError({ message: "Something is wrong. Please try again later" });
          } finally {
             setIsLoading(false);
          }
@@ -41,11 +41,7 @@ function Home() {
    }
 
    if (error) {
-      return (
-         <>
-            Error {error.message} {error.status}
-         </>
-      );
+      return <div className="w-full text-center">{error.message}</div>;
    }
 
    return (
