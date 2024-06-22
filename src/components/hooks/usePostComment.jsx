@@ -6,7 +6,7 @@ function usePostComment(commentsDispatch) {
    const logout = useLogout();
    const [error, setError] = useState(null);
 
-   async function handlePostComment(postId, commentText, setCommentText) {
+   async function postComment(postId, commentText, setCommentText) {
       try {
          const storedToken = localStorage.getItem("token");
 
@@ -47,7 +47,7 @@ function usePostComment(commentsDispatch) {
       }
    }
 
-   return [handlePostComment, error];
+   return [postComment, error, setError];
 }
 
 export default usePostComment;
