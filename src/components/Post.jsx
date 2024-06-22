@@ -29,20 +29,20 @@ function Post() {
                },
             });
 
-            let json;
-
             if (response.status === 401) {
-               json = { error: { status: response.status, message: "Authentication required" } };
                setPost(null);
                commentsDispatch({ type: "reset" });
                logout();
-            } else {
-               json = await response.json();
+               throw new Error("Authentication required");
             }
 
+            if (response.status === 404) {
+               throw new Error("Post not found");
+            }
+            const json = await response.json();
+
             if (!response.ok) {
-               setError(json.error);
-               return;
+               throw new Error(`Unexpected error! please try again later.`);
             }
 
             if (active) {
@@ -51,7 +51,7 @@ function Post() {
                commentsDispatch({ type: "set", comments: json.comments });
             }
          } catch (err) {
-            setError({ message: "Could not get the post, please try again later." });
+            setError(err);
          } finally {
             if (active) {
                setIsLoading(false);
@@ -76,7 +76,7 @@ function Post() {
    if (error) {
       return (
          <div className="h-[500px] w-full flex justify-center items-center">
-            <p className="text-2xl">{error && error.message}</p>
+            <p className="text-2xl">{error.message}</p>
          </div>
       );
    }
