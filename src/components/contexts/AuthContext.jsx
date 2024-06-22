@@ -9,6 +9,9 @@ const AuthContext = createContext({
 });
 
 function AuthProvider() {
+   // this is used to avoid issues with token being null
+   // on the first render until the useEffect runs and
+   // retrieves the correct token from localStorage
    const getToken = () => localStorage.getItem("token");
 
    const [token, setToken] = useState(getToken);
