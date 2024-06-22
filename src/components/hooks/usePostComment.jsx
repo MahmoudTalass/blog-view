@@ -1,5 +1,4 @@
 import { useState } from "react";
-import useAuth from "./useAuth";
 import useLogout from "./useLogout";
 
 function usePostComment(commentsDispatch) {
