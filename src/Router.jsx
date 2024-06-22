@@ -5,6 +5,7 @@ import Post from "./components/Post";
 import Home from "./components/Home";
 import MainPageLayout from "./components/MainPageLayout";
 import AuthProvider from "./components/contexts/AuthContext";
+import NotFound from "./components/NotFound";
 
 export const router = createBrowserRouter([
    {
@@ -31,6 +32,10 @@ export const router = createBrowserRouter([
          {
             path: "signup",
             element: <Signup />,
+         },
+         {
+            path: "*",
+            element: <NotFound />,
          },
       ],
    },
