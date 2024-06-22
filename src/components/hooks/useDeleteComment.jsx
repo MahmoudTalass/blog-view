@@ -1,7 +1,7 @@
 import { useState } from "react";
 import useLogout from "./useLogout";
 
-function useDeleteComment(commentsDispatch) {
+function UseDeleteComment(commentsDispatch) {
    const [error, setError] = useState(null);
    const logout = useLogout();
 
@@ -40,4 +40,4 @@ function useDeleteComment(commentsDispatch) {
    return [handleDeleteComment, error, setError];
 }
 
-export default useDeleteComment;
+export default UseDeleteComment;

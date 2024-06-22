@@ -6,7 +6,7 @@ import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 
 // custom hooks
 import useOutsideClick from "./hooks/useOutsideClick";
-import useDeleteComment from "./hooks/useDeleteComment";
+import UseDeleteComment from "./hooks/useDeleteComment";
 import useUpdateComment from "./hooks/useUpdateComment";
 
 // prop type checking
@@ -24,7 +24,7 @@ function Comment({ comment, isCurrentUserComment, commentsDispatch }) {
    const commentOptionsRef = useRef(null);
 
    // custom state for performing update/delete actions on a comment
-   const [handleDeleteComment, deleteError, setDeleteError] = useDeleteComment(commentsDispatch);
+   const [handleDeleteComment, deleteError, setDeleteError] = UseDeleteComment(commentsDispatch);
    const [handleUpdateComment, updateError, setUpdateError] = useUpdateComment(commentsDispatch);
 
    // Hook to handle hiding an element when clicking outside the element
