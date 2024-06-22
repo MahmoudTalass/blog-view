@@ -9,19 +9,19 @@ const AuthContext = createContext({
 });
 
 function AuthProvider() {
-   const [token, setToken] = useState(null);
+   const getToken = () => localStorage.getItem("token");
+
+   const [token, setToken] = useState(getToken);
    const [userId, setUserId] = useState(null);
 
    useEffect(() => {
-      const storedToken = localStorage.getItem("token");
+      if (token) {
+         const id = jwtDecode(token).id;
 
-      if (storedToken) {
-         const id = jwtDecode(storedToken).id;
-
-         setToken(storedToken);
+         setToken(token);
          setUserId(id);
       }
-   }, []);
+   }, [token]);
 
    return (
       <AuthContext.Provider value={{ token, setToken, userId, setUserId }}>
