@@ -13,6 +13,7 @@ function Signup() {
    const { token, setToken } = useAuth();
    const [email, setEmail] = useState("");
    const [name, setName] = useState("");
+   const [isAuthor, setIsAuthor] = useState(false);
    const [password, setPassword] = useState("");
    const [error, setError] = useState(null);
 
@@ -27,7 +28,7 @@ function Signup() {
             headers: {
                "Content-Type": "application/json",
             },
-            body: JSON.stringify({ email, name, password, isAuthor: false }),
+            body: JSON.stringify({ email, name, password, isAuthor }),
          });
 
          const json = await response.json();
@@ -85,6 +86,16 @@ function Signup() {
             isRequired={true}
             name="password"
          />
+         <div className="flex gap-3">
+            <label htmlFor="isAuthor">Would you like to author posts?</label>
+            <input
+               type="checkbox"
+               name="isAuthor"
+               id="isAuthor"
+               checked={isAuthor}
+               onChange={() => setIsAuthor(!isAuthor)}
+            />
+         </div>
          <p>
             Existing user?{" "}
             <Link to="/login" className="underline">
