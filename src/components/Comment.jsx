@@ -46,11 +46,14 @@ function Comment({ comment, isCurrentUserComment, commentsDispatch }) {
       setCommentInput(comment.text);
       setIsEditing(true);
       setDisplayOptions(false);
+      setUpdateError(null);
    }
 
-   function handleSaveUpdate() {
-      handleUpdateComment(comment._id, comment.author._id, commentInput);
-      setIsEditing(false);
+   async function handleSaveUpdate() {
+      await handleUpdateComment(comment._id, comment.author._id, commentInput);
+      if (!updateError) {
+         setIsEditing(false);
+      }
    }
 
    return (
@@ -83,6 +86,17 @@ function Comment({ comment, isCurrentUserComment, commentsDispatch }) {
                      >
                         save
                      </button>
+                  </div>
+                  <div>
+                     {updateError &&
+                        updateError.errors.length !== 0 &&
+                        updateError.errors.map((err) => {
+                           return (
+                              <p key={err.message} className="text-red-600">
+                                 {err.message}
+                              </p>
+                           );
+                        })}
                   </div>
                </div>
             )}
