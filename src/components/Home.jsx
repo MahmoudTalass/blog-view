@@ -15,15 +15,14 @@ function Home() {
 
             if (!response.ok) {
                setData(null);
-               setError(json);
-               return;
+               throw new Error(json.error.message);
             }
 
             if (active) {
                setData(json);
             }
          } catch (err) {
-            setError({ message: "Something is wrong. Please try again later" });
+            setError(err);
          } finally {
             setIsLoading(false);
          }
