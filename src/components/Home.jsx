@@ -6,11 +6,13 @@ function Home() {
    const [isLoading, setIsLoading] = useState(true);
 
    useEffect(() => {
-      let active = true;
+      const controller = new AbortController();
 
       async function fetchData() {
          try {
-            const response = await fetch("http://localhost:3000/api/posts");
+            const response = await fetch("http://localhost:3000/api/posts", {
+               signal: controller.signal,
+            });
             const json = await response.json();
 
             if (!response.ok) {
@@ -18,9 +20,7 @@ function Home() {
                throw new Error(json.error.message);
             }
 
-            if (active) {
-               setData(json);
-            }
+            setData(json);
          } catch (err) {
             setError(err);
          } finally {
@@ -31,7 +31,7 @@ function Home() {
       fetchData();
 
       return () => {
-         active = false;
+         controller.abort();
       };
    }, []);
 
