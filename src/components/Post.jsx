@@ -16,7 +16,7 @@ function Post() {
    const logout = useLogout();
 
    useEffect(() => {
-      let active = true;
+      const controller = new AbortController();
 
       async function fetchData() {
          try {
@@ -27,6 +27,7 @@ function Post() {
                headers: {
                   authorization: "Bearer " + storedToken,
                },
+               signal: controller.signal,
             });
 
             if (response.status === 401) {
@@ -45,23 +46,19 @@ function Post() {
                throw new Error(`Unexpected error! please try again later.`);
             }
 
-            if (active) {
-               setError(null);
-               setPost(json.post);
-               commentsDispatch({ type: "set", comments: json.comments });
-            }
+            setError(null);
+            setPost(json.post);
+            commentsDispatch({ type: "set", comments: json.comments });
          } catch (err) {
-            setError(err);
+            if (err.name !== "AbortError") setError(err);
          } finally {
-            if (active) {
-               setIsLoading(false);
-            }
+            setIsLoading(false);
          }
       }
       fetchData();
 
       return () => {
-         active = false;
+         controller.abort();
       };
    }, [postId, logout]);
 
