@@ -50,7 +50,7 @@ function Comment({ comment, isCurrentUserComment, commentsDispatch }) {
    }
 
    async function handleSaveUpdate() {
-      await handleUpdateComment(comment._id, comment.author._id, commentInput);
+      await handleUpdateComment(comment._id, commentInput);
       if (!updateError) {
          setIsEditing(false);
       }
@@ -132,9 +132,7 @@ function Comment({ comment, isCurrentUserComment, commentsDispatch }) {
                               <hr />
                               <button
                                  role="menuitem"
-                                 onClick={() =>
-                                    handleDeleteComment(comment._id, comment.author._id)
-                                 }
+                                 onClick={() => handleDeleteComment(comment._id)}
                               >
                                  Delete
                               </button>

@@ -5,7 +5,7 @@ function UseDeleteComment(commentsDispatch) {
    const [error, setError] = useState(null);
    const logout = useLogout();
 
-   async function handleDeleteComment(commentId, authorId) {
+   async function handleDeleteComment(commentId) {
       try {
          const storedToken = localStorage.getItem("token");
 
@@ -15,7 +15,6 @@ function UseDeleteComment(commentsDispatch) {
                "content-type": "application/json",
                authorization: "Bearer " + storedToken,
             },
-            body: JSON.stringify({ authorId }),
          });
 
          if (!response.ok) {

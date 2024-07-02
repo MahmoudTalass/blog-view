@@ -5,12 +5,11 @@ function useUpdateComment(commentsDispatch) {
    const [error, setError] = useState(null);
    const logout = useLogout();
 
-   async function handleUpdateComment(commentId, authorId, text) {
+   async function handleUpdateComment(commentId, text) {
       try {
          const storedToken = localStorage.getItem("token");
 
          const body = {
-            authorId,
             text,
          };
          const response = await fetch("http://localhost:3000/api/comments/" + commentId, {
