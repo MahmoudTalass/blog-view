@@ -22,7 +22,9 @@ function Home() {
 
             setData(json);
          } catch (err) {
-            setError(err);
+            if (err.name !== "AbortError") {
+               setError(err);
+            }
          } finally {
             setIsLoading(false);
          }
