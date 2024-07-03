@@ -14,6 +14,7 @@ import PropTypes from "prop-types";
 
 // time/date formatting
 import moment from "moment";
+import useAuth from "./hooks/useAuth";
 
 function Comment({ comment, isCurrentUserComment, commentsDispatch }) {
    // toggle display state
@@ -32,6 +33,8 @@ function Comment({ comment, isCurrentUserComment, commentsDispatch }) {
 
    // state for text that the user will type to update/edit their comment
    const [commentInput, setCommentInput] = useState(comment.text);
+
+   const { userId } = useAuth();
 
    useEffect(() => {
       setDisplayOptions(false);
@@ -104,7 +107,10 @@ function Comment({ comment, isCurrentUserComment, commentsDispatch }) {
                <>
                   <div className="flex-grow flex flex-col gap-1">
                      <div className="flex flex-col">
-                        <p className="font-bold">{comment.author.name}</p>
+                        <p className="font-bold">
+                           {comment.author.name}
+                           {comment.author._id === userId && <span className="italic"> (You)</span>}
+                        </p>
                         <p className="text-sm text-gray-400">
                            {moment(comment.createdAt).fromNow()}
                         </p>
