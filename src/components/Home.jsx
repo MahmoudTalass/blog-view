@@ -20,6 +20,7 @@ function Home() {
                throw new Error(json.error.message);
             }
 
+            setError(null);
             setData(json);
          } catch (err) {
             if (err.name !== "AbortError") {
@@ -38,7 +39,7 @@ function Home() {
    }, []);
 
    if (isLoading) {
-      return <>Loading...</>;
+      return <p>Loading...</p>;
    }
 
    if (error) {
@@ -48,13 +49,14 @@ function Home() {
    return (
       <div className="max-w-1200px">
          <section className="flex flex-wrap w-full gap-5 p-6 justify-center">
-            {data && data.length > 0 ? (
-               data.map((post) => {
-                  return <PostCard key={post._id} post={post} />;
-               })
-            ) : (
-               <p>No posts yet</p>
-            )}
+            {data &&
+               (data.length > 0 ? (
+                  data.map((post) => {
+                     return <PostCard key={post._id} post={post} />;
+                  })
+               ) : (
+                  <p>No posts yet</p>
+               ))}
          </section>
       </div>
    );
