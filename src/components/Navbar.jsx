@@ -11,7 +11,7 @@ function Navbar() {
    }
 
    return (
-      <header className="flex justify-between p-6 mb-16 bg-[#34495E]">
+      <header className="flex justify-between p-6 mb-10 bg-[#34495E]">
          <Link to="/">
             <h1 className="text-4xl font-bold">Blog View</h1>
          </Link>
