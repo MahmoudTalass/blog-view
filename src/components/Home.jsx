@@ -1,43 +1,8 @@
 import PostCard from "./PostCard";
-import { useState, useEffect } from "react";
 import { Spinner } from "./Spinner";
+import { useFetch } from "./hooks/useFetch";
 function Home() {
-   const [data, setData] = useState(null);
-   const [error, setError] = useState(null);
-   const [isLoading, setIsLoading] = useState(true);
-
-   useEffect(() => {
-      const controller = new AbortController();
-
-      async function fetchData() {
-         try {
-            const response = await fetch("http://localhost:3000/api/posts", {
-               signal: controller.signal,
-            });
-            const json = await response.json();
-
-            if (!response.ok) {
-               setData(null);
-               throw new Error(json.error.message);
-            }
-
-            setError(null);
-            setData(json);
-         } catch (err) {
-            if (err.name !== "AbortError") {
-               setError(err);
-            }
-         } finally {
-            setIsLoading(false);
-         }
-      }
-
-      fetchData();
-
-      return () => {
-         controller.abort();
-      };
-   }, []);
+   const { data, isLoading, error } = useFetch("http://localhost:3000/api/posts");
 
    if (isLoading || !data) {
       return <Spinner />;
