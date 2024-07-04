@@ -1,5 +1,6 @@
 import PostCard from "./PostCard";
 import { useState, useEffect } from "react";
+import { Spinner } from "./Spinner";
 function Home() {
    const [data, setData] = useState(null);
    const [error, setError] = useState(null);
@@ -38,8 +39,8 @@ function Home() {
       };
    }, []);
 
-   if (isLoading) {
-      return <p>Loading...</p>;
+   if (isLoading || !data) {
+      return <Spinner />;
    }
 
    if (error) {

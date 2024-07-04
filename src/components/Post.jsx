@@ -7,6 +7,7 @@ import useLogout from "./hooks/useLogout";
 import moment from "moment";
 import { decode } from "he";
 import DOMPurify from "dompurify";
+import { Spinner } from "./Spinner";
 
 function Post() {
    const { token } = useAuth();
@@ -34,9 +35,6 @@ function Post() {
                   signal: controller.signal,
                }
             );
-
-            console.log(response);
-            console.log("reached line 39");
 
             if (response.status === 401) {
                setPost(null);
@@ -85,33 +83,31 @@ function Post() {
       );
    }
 
-   if (isLoading) {
-      return <p>Loading...</p>;
+   if (isLoading || !post) {
+      return <Spinner />;
    }
 
-   if (post) {
-      const decodedHtml = decode(post.text);
-      const sanitizedHtml = DOMPurify.sanitize(decodedHtml);
+   const decodedHtml = decode(post.text);
+   const sanitizedHtml = DOMPurify.sanitize(decodedHtml);
 
-      return (
-         <main className="w-full flex flex-col items-center">
-            <section className="w-full sm:w-9/12 flex flex-col bg-[#1C2833] p-8 gap-12 rounded-xl ">
-               <div className="flex flex-col gap-8">
-                  <h2 className="text-center sm:text-left text-3xl">{post.title}</h2>
-                  <div className="flex justify-between">
-                     <p>{post.author.name}</p>
-                     <p>{moment(post.publishDate).format("ll")}</p>
-                  </div>
-                  <div
-                     className="p-4 prose prose-invert"
-                     dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
-                  ></div>
+   return (
+      <main className="w-full flex flex-col items-center">
+         <section className="w-full sm:w-9/12 flex flex-col bg-[#1C2833] p-8 gap-12 rounded-xl ">
+            <div className="flex flex-col gap-8">
+               <h2 className="text-center sm:text-left text-3xl">{post.title}</h2>
+               <div className="flex justify-between">
+                  <p>By: {post.author.name}</p>
+                  <p>{moment(post.publishDate).format("ll")}</p>
                </div>
-               <CommentSection comments={comments} commentsDispatch={commentsDispatch} />
-            </section>
-         </main>
-      );
-   }
+               <div
+                  className="p-4 prose prose-invert"
+                  dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
+               ></div>
+            </div>
+            <CommentSection comments={comments} commentsDispatch={commentsDispatch} />
+         </section>
+      </main>
+   );
 }
 
 export default Post;
