@@ -1,6 +1,6 @@
 import { useEffect, useReducer, useState } from "react";
 import useLogout from "./useLogout";
-import useAuth from "./useAuth";
+import useAuthContext from "./useAuthContext";
 
 function reducer(data, action) {
    switch (action.type) {
@@ -27,7 +27,7 @@ export function useFetch(url) {
    const [data, dispatch] = useReducer(reducer, null);
    const [error, setError] = useState(null);
    const [isLoading, setIsLoading] = useState(true);
-   const { token } = useAuth();
+   const { token } = useAuthContext();
    const logout = useLogout();
 
    const setData = (data) => dispatch({ type: "SET", payload: data });

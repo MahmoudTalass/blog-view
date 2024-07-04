@@ -1,5 +1,5 @@
 import { Navigate, useParams } from "react-router-dom";
-import useAuth from "./hooks/useAuth";
+import useAuthContext from "./hooks/useAuthContext";
 import { useEffect, useState, useReducer } from "react";
 import CommentSection from "./CommentSection";
 import commentsReducer from "./reducers/commentsReducer";
@@ -10,7 +10,7 @@ import DOMPurify from "dompurify";
 import { Spinner } from "./Spinner";
 
 function Post() {
-   const { token } = useAuth();
+   const { token } = useAuthContext();
    const { postId } = useParams();
    const [error, setError] = useState(null);
    const [isLoading, setIsLoading] = useState(true);

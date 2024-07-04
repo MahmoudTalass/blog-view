@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import useAuth from "./hooks/useAuth";
+import useAuthContext from "./hooks/useAuthContext";
 
-function Navbar() {
-   const { token, setToken, setUserId } = useAuth();
+function Header() {
+   const { token, setToken, setUserId } = useAuthContext();
 
    function logout() {
       setToken(null);
@@ -29,4 +29,4 @@ function Navbar() {
    );
 }
 
-export default Navbar;
+export default Header;

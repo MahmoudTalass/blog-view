@@ -1,16 +1,16 @@
 import { Link } from "react-router-dom";
-import useAuth from "./hooks/useAuth";
+import useAuthContext from "../hooks/useAuthContext";
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
-import InputField from "./InputField";
-import AuthenticationForm from "./AuthenticationForm";
+import InputField from "../InputField";
+import AuthenticationForm from "../AuthenticationForm";
 import SubmitButton from "./SubmitButton";
-import FormErrors from "./FormErrors";
+import FormErrors from "../FormErrors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowAltCircleLeft } from "@fortawesome/free-regular-svg-icons";
 
 function Signup() {
-   const { token, setToken } = useAuth();
+   const { token, setToken } = useAuthContext();
    const [email, setEmail] = useState("");
    const [name, setName] = useState("");
    const [isAuthor, setIsAuthor] = useState(false);

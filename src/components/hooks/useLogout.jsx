@@ -1,9 +1,9 @@
 import { useCallback } from "react";
-import useAuth from "./useAuth";
+import useAuthContext from "./useAuthContext";
 import { Navigate } from "react-router-dom";
 
 function useLogout() {
-   const { setToken, setUserId } = useAuth();
+   const { setToken, setUserId } = useAuthContext();
 
    const logout = useCallback(() => {
       localStorage.removeItem("token");

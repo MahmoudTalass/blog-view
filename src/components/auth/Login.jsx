@@ -1,17 +1,17 @@
 import { Link } from "react-router-dom";
-import useAuth from "./hooks/useAuth";
+import useAuthContext from "../hooks/useAuthContext";
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
-import InputField from "./InputField";
-import AuthenticationForm from "./AuthenticationForm";
+import InputField from "../InputField";
+import AuthenticationForm from "../AuthenticationForm";
 import SubmitButton from "./SubmitButton";
-import FormErrors from "./FormErrors";
+import FormErrors from "../FormErrors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowAltCircleLeft } from "@fortawesome/free-regular-svg-icons";
 import { jwtDecode } from "jwt-decode";
 
 function Login() {
-   const { token, setToken, setUserId } = useAuth();
+   const { token, setToken, setUserId } = useAuthContext();
    const [email, setEmail] = useState("");
    const [password, setPassword] = useState("");
    const [isLoading, setIsLoading] = useState(false);

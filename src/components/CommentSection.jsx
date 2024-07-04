@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import Comment from "./Comment";
 import { useParams } from "react-router-dom";
-import useAuth from "./hooks/useAuth";
+import useAuthContext from "./hooks/useAuthContext";
 import PropTypes from "prop-types";
 import usePostComment from "./hooks/usePostComment";
 
 function CommentSection({ comments, commentsDispatch }) {
    const [commentInput, setCommentInput] = useState("");
    const { postId } = useParams();
-   const { userId } = useAuth();
+   const { userId } = useAuthContext();
    const [postComment, error, setError] = usePostComment(commentsDispatch);
 
    useEffect(() => {

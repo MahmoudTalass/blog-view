@@ -14,7 +14,7 @@ import PropTypes from "prop-types";
 
 // time/date formatting
 import moment from "moment";
-import useAuth from "./hooks/useAuth";
+import useAuthContext from "./hooks/useAuthContext";
 import { decode } from "he";
 
 function Comment({ comment, isCurrentUserComment, commentsDispatch }) {
@@ -35,7 +35,7 @@ function Comment({ comment, isCurrentUserComment, commentsDispatch }) {
    // state for text that the user will type to update/edit their comment
    const [commentInput, setCommentInput] = useState(comment.text);
 
-   const { userId } = useAuth();
+   const { userId } = useAuthContext();
 
    useEffect(() => {
       setDisplayOptions(false);
