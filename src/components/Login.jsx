@@ -14,10 +14,12 @@ function Login() {
    const { token, setToken, setUserId } = useAuth();
    const [email, setEmail] = useState("");
    const [password, setPassword] = useState("");
+   const [isLoading, setIsLoading] = useState(false);
    const [error, setError] = useState(null);
 
    async function handleSubmitLogin(e) {
       e.preventDefault();
+      setIsLoading(true);
       setPassword("");
 
       try {
@@ -44,6 +46,8 @@ function Login() {
          setError(null);
       } catch (err) {
          setError({ message: "An error occurred. please try again later" });
+      } finally {
+         setIsLoading(false);
       }
    }
 
@@ -84,7 +88,7 @@ function Login() {
                Sign up here
             </Link>
          </p>
-         <SubmitButton>Login</SubmitButton>
+         <SubmitButton disabled={isLoading}>Login</SubmitButton>
          {error && <FormErrors {...error} />}
       </AuthenticationForm>
    );

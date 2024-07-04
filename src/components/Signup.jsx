@@ -16,9 +16,11 @@ function Signup() {
    const [isAuthor, setIsAuthor] = useState(false);
    const [password, setPassword] = useState("");
    const [error, setError] = useState(null);
+   const [isLoading, setIsLoading] = useState(false);
 
    async function handleSubmitSignup(e) {
       e.preventDefault();
+      setIsLoading(true);
       setPassword("");
 
       try {
@@ -43,6 +45,8 @@ function Signup() {
          setError(null);
       } catch (err) {
          setError({ message: "An error occurred. please try again later" });
+      } finally {
+         setIsLoading(false);
       }
    }
 
@@ -102,7 +106,7 @@ function Signup() {
                Login here
             </Link>
          </p>
-         <SubmitButton>Sign up</SubmitButton>
+         <SubmitButton disabled={isLoading}>Sign up</SubmitButton>
          {error && <FormErrors {...error} />}
       </AuthenticationForm>
    );
