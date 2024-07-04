@@ -15,6 +15,7 @@ import PropTypes from "prop-types";
 // time/date formatting
 import moment from "moment";
 import useAuth from "./hooks/useAuth";
+import { decode } from "he";
 
 function Comment({ comment, isCurrentUserComment, commentsDispatch }) {
    // toggle display state
@@ -58,6 +59,8 @@ function Comment({ comment, isCurrentUserComment, commentsDispatch }) {
          setIsEditing(false);
       }
    }
+
+   const decodedCommentText = decode(comment.text);
 
    return (
       <>
@@ -115,7 +118,7 @@ function Comment({ comment, isCurrentUserComment, commentsDispatch }) {
                            {moment(comment.createdAt).fromNow()}
                         </p>
                      </div>
-                     <p>{comment.text}</p>
+                     <p>{decodedCommentText}</p>
                   </div>
                   {isCurrentUserComment && (
                      <div className="relative">
@@ -128,14 +131,14 @@ function Comment({ comment, isCurrentUserComment, commentsDispatch }) {
                         </button>
                         {displayOptions && (
                            <div
-                              className="flex flex-col bg-color2 rounded absolute right-0 z-10 p-1 px-3 gap-1"
+                              className="flex flex-col bg-color2 rounded absolute right-0 z-10 p-1 px-3 gap-1 divide-y"
                               role="menu"
                               ref={commentOptionsRef}
                            >
                               <button role="menuitem" onClick={handleDisplayEditing}>
                                  Edit
                               </button>
-                              <hr />
+                              {/* <hr /> */}
                               <button
                                  role="menuitem"
                                  onClick={() => handleDeleteComment(comment._id)}
