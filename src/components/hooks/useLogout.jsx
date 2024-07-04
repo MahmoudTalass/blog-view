@@ -3,15 +3,16 @@ import useAuthContext from "./useAuthContext";
 import { Navigate } from "react-router-dom";
 
 function useLogout() {
-   const { setToken, setUserId } = useAuthContext();
+   const { setToken, setUserId, setIsUserAuthor } = useAuthContext();
 
    const logout = useCallback(() => {
       localStorage.removeItem("token");
       setToken(null);
       setUserId(null);
+      setIsUserAuthor(false);
 
       return <Navigate to="/" />;
-   }, [setToken, setUserId]);
+   }, [setToken, setUserId, setIsUserAuthor]);
 
    return logout;
 }

@@ -16,18 +16,22 @@ function AuthProvider() {
 
    const [token, setToken] = useState(getToken);
    const [userId, setUserId] = useState(null);
+   const [isUserAuthor, setIsUserAuthor] = useState(false);
 
    useEffect(() => {
       if (token) {
-         const id = jwtDecode(token).id;
+         const { id, author } = jwtDecode(token);
 
+         setIsUserAuthor(author);
          setToken(token);
          setUserId(id);
       }
    }, [token]);
 
    return (
-      <AuthContext.Provider value={{ token, setToken, userId, setUserId }}>
+      <AuthContext.Provider
+         value={{ token, setToken, userId, setUserId, setIsUserAuthor, isUserAuthor }}
+      >
          <Outlet />
       </AuthContext.Provider>
    );
