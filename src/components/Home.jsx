@@ -2,7 +2,7 @@ import PostCard from "./PostCard";
 import { Spinner } from "./Spinner";
 import { useFetch } from "./hooks/useFetch";
 function Home() {
-   const { data, isLoading, error } = useFetch("http://localhost:3000/api/posts");
+   const { data, isLoading, error } = useFetch("https://blog-api-service.fly.dev/api/posts");
 
    if (isLoading || !data) {
       return <Spinner />;

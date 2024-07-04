@@ -12,14 +12,17 @@ function useUpdateComment(commentsDispatch) {
          const body = {
             text,
          };
-         const response = await fetch("http://localhost:3000/api/comments/" + commentId, {
-            method: "put",
-            headers: {
-               "content-type": "application/json",
-               authorization: "Bearer " + storedToken,
-            },
-            body: JSON.stringify(body),
-         });
+         const response = await fetch(
+            "https://blog-api-service.fly.dev/api/comments/" + commentId,
+            {
+               method: "put",
+               headers: {
+                  "content-type": "application/json",
+                  authorization: "Bearer " + storedToken,
+               },
+               body: JSON.stringify(body),
+            }
+         );
 
          let json;
 

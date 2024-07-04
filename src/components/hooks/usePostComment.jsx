@@ -14,7 +14,7 @@ function usePostComment(commentsDispatch) {
             postId,
          };
 
-         const response = await fetch("http://localhost:3000/api/comments", {
+         const response = await fetch("https://blog-api-service.fly.dev/api/comments", {
             method: "post",
             headers: {
                "content-type": "application/json",

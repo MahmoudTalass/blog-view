@@ -9,13 +9,16 @@ function UseDeleteComment(commentsDispatch) {
       try {
          const storedToken = localStorage.getItem("token");
 
-         const response = await fetch("http://localhost:3000/api/comments/" + commentId, {
-            method: "delete",
-            headers: {
-               "content-type": "application/json",
-               authorization: "Bearer " + storedToken,
-            },
-         });
+         const response = await fetch(
+            "https://blog-api-service.fly.dev/api/comments/" + commentId,
+            {
+               method: "delete",
+               headers: {
+                  "content-type": "application/json",
+                  authorization: "Bearer " + storedToken,
+               },
+            }
+         );
 
          if (!response.ok) {
             let json;

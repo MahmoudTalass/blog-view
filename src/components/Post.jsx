@@ -27,7 +27,7 @@ function Post() {
             const storedToken = localStorage.getItem("token");
 
             const response = await fetch(
-               `http://localhost:3000/api/posts/${postId}?comments=true`,
+               `https://blog-api-service.fly.dev/api/posts/${postId}?comments=true`,
                {
                   headers: {
                      Authorization: "Bearer " + storedToken,

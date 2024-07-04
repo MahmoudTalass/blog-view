@@ -22,7 +22,7 @@ function Signup() {
       setPassword("");
 
       try {
-         const response = await fetch("http://localhost:3000/api/auth/signup", {
+         const response = await fetch("https://blog-api-service.fly.dev/api/auth/signup", {
             mode: "cors",
             method: "post",
             headers: {
