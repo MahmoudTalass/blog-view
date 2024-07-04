@@ -6,6 +6,7 @@ import Home from "./components/Home";
 import MainPageLayout from "./components/MainPageLayout";
 import AuthProvider from "./components/contexts/AuthContext";
 import NotFound from "./components/NotFound";
+import { NotFoundPage } from "./components/NotFoundPage";
 
 export const router = createBrowserRouter([
    {
@@ -38,5 +39,9 @@ export const router = createBrowserRouter([
             element: <NotFound />,
          },
       ],
+   },
+   {
+      path: "*",
+      element: <NotFoundPage />,
    },
 ]);
