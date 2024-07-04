@@ -87,21 +87,23 @@ function Post() {
       return <Spinner />;
    }
 
-   const decodedHtml = decode(post.text);
-   const sanitizedHtml = DOMPurify.sanitize(decodedHtml);
+   const decodedText = decode(post.text);
+   const sanitizedText = DOMPurify.sanitize(decodedText);
+
+   const decodedTitle = decode(post.title);
 
    return (
       <main className="w-full flex flex-col items-center">
          <section className="w-full sm:w-9/12 flex flex-col bg-[#1C2833] p-8 gap-12 rounded-xl ">
             <div className="flex flex-col gap-8">
-               <h2 className="text-center sm:text-left text-3xl">{post.title}</h2>
+               <h2 className="text-center sm:text-left text-3xl">{decodedTitle}</h2>
                <div className="flex justify-between">
                   <p>By: {post.author.name}</p>
                   <p>{moment(post.publishDate).format("ll")}</p>
                </div>
                <div
                   className="p-4 prose prose-invert"
-                  dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
+                  dangerouslySetInnerHTML={{ __html: sanitizedText }}
                ></div>
             </div>
             <CommentSection comments={comments} commentsDispatch={commentsDispatch} />
