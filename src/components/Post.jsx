@@ -102,7 +102,7 @@ function Post() {
                   <p>{moment(post.publishDate).format("ll")}</p>
                </div>
                <div
-                  className="p-4 prose prose-invert"
+                  className="p-4 prose prose-invert w-full max-w-none"
                   dangerouslySetInnerHTML={{ __html: sanitizedText }}
                ></div>
             </div>
